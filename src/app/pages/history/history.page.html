@@ -1,0 +1,22 @@
+<header [editCallbacks]='getEditCallbacks()' [editContext]='editContext'></header>
+
+<div class='pageTitle'>
+    <h3>History</h3>
+</div>
+
+<ion-content padding>
+
+  <div style='text-align: center;'>
+    <span *ngIf='ffItems'>
+      <div *ngFor='let f of ffItems' class='cardContainer'>
+        <div *ngIf='editContext'>
+          <ion-checkbox [(ngModel)]='f.selected' [checked]='f.selected'></ion-checkbox>
+        </div>
+        <fulfillment [fulfillment]='f' class='card' (onDismissed)='onDismissed($event)'>
+        </fulfillment>
+      </div>
+    </span>
+  </div>
+</ion-content>
+
+<footer [buttons]='buttons' [page]='page'></footer>

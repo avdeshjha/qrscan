@@ -1,0 +1,35 @@
+{
+	"name": "SFA - Development",
+	"folders": {
+		"resources": "resources_sfa"
+	},
+	"xml": {
+		"configxml": {
+			"widget": {
+				"_id": "com.pixelhangers.sfa.dev",
+				"name": "ScanForAction",
+				"description": "Scan for action using QR codes"
+			}
+		}
+	},
+	"json": {
+		"packagejson": {
+			"name": "sfa.dev",
+			"description": "SFA Scanner",
+			"cordova": {
+				"plugins": {
+					"cordova-plugin-ionic": {
+						"APP_ID": "c1876cfd",
+						"CHANNEL_NAME": "Development",
+						"UPDATE_METHOD": "background"
+					}
+				}
+			}
+		}
+	},
+	"ts": {
+		"modelservicets": {
+			"sfa": true
+		}
+	}
+}

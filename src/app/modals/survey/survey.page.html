@@ -1,0 +1,23 @@
+<header (back)='closeModal()'></header>
+
+<div class="center">
+    <div *ngIf='missingSurveyMode' class="missingDataError">Please select an option.</div>
+    <h3>Survey</h3>
+    {{ ff.getDescription() }} <br />
+    {{ ff.getOrg() }} <br />
+    <br />
+    {{ surveyQuestion }}
+</div>
+
+<ion-content overflow-scroll=”true”>
+    <ion-radio-group value=this.initialSelection [(ngModel)]=initialSelection>
+        <ion-list>
+            <ion-item *ngFor="let o of getSurveyOptions(ff)" [ngClass]="{'surveySelected' : o.selected}">
+                <ion-label>{{ o.o }}</ion-label>
+                <ion-radio value='{{o.o}}' (ionSelect)='surveySelect(o.o)' mode="md"></ion-radio>
+            </ion-item>
+        </ion-list>
+    </ion-radio-group>
+</ion-content>
+
+<footer [buttons]='footerButtons' [page]='null'></footer>

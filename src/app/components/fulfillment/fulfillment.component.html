@@ -1,0 +1,52 @@
+<ion-card (click)='details()'>
+
+  <div *ngIf='(isPromo || isDrawing || isPunch) && hasChild'>
+    <ion-icon class='promoIcon' name='pricetags' (click)='openPromo($event)'></ion-icon>
+  </div>
+
+  <ion-icon class='tapIcon' name='search'></ion-icon>
+
+  <!-- <ion-card-header>
+    <ion-card-title>{{ description }}</ion-card-title>
+    <ion-card-subtitle>{{ action }}</ion-card-subtitle>
+  </ion-card-header> -->
+<!-- old Code -->
+  <!-- <ion-card-header style="text-align: center;">
+    <ion-card-title>
+      <div>
+        {{ ff.getUserFacingState() }} - {{ action }}
+        <br/>
+        {{ ff.getDescription() }}
+        <br/>
+        Sponsor: {{ ff.getOrg()}}
+      </div>
+    </ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-card-subtitle>
+      Submitted {{ procTimeStr }}
+    </ion-card-subtitle>
+  </ion-card-content> -->
+
+  <ion-card-header>
+    <ion-card-title>
+      <div>
+        {{ ff.getOrg()}}
+        <ion-card-subtitle>{{ ff.getDescription() }}</ion-card-subtitle>
+        <!-- {{"WELCOME" | translate}} -->
+        <!-- <div [translate]="'001I'" [translateParams]="{engagementType : enagaementType, engagementDesc : ff.getDescription()}"></div> -->
+        <div class="status">
+          <span>{{ enagaementType }} - </span>
+          <span>{{ currentState }}</span>
+        </div>
+        <div *ngIf="engageType ===  EngageType.EVENT_REGISTRATION || engageType ===  EngageType.EVENT_WITH_GUEST; else elseBlock">
+          <ion-card-subtitle> Starts : {{ start }} </ion-card-subtitle>
+        </div>
+        <ng-template #elseBlock>
+          <ion-card-subtitle> Ends : {{ end }} </ion-card-subtitle>
+        </ng-template>
+      </div>
+    </ion-card-title>
+  </ion-card-header>
+</ion-card>

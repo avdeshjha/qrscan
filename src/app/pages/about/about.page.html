@@ -1,0 +1,23 @@
+<header></header>
+
+<div class='pageTitle'>
+	<h3>About</h3>
+</div>
+<ion-content padding>
+	Version: {{ version }} <br />
+	Updated: {{ updated }} <br />
+	<div *ngIf='modelService.branch != Branch.PRODUCTION'>
+		Branch: {{ modelService.branch }}
+		<div>
+			<div *ngIf='deployChannel'>
+				<p>Deploy Channel: {{ deployChannel }}</p>
+			</div>
+			<p *ngIf='!updateAvailable' (click)='checkChannel()'>Up to date [check now] <br /> Last check: {{ lastCheck }}</p>
+			<p *ngIf='updateAvailable && !downloadProgress' (click)='performManualUpdate()'>Update available now [download]</p>
+			<p *ngIf='downloadProgress > 0'>Update Progress: {{ downloadProgress }} / 100</p>
+		</div>
+	</div>
+
+</ion-content>
+
+<footer [buttons]='[]' [page]='null'></footer>

@@ -1,0 +1,48 @@
+.cardContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.tapIcon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 30px;
+}
+
+ion-card {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+ion-card-title {
+    width: 100%;
+  //   display: flex;
+  //   flex-direction: row;
+    align-content: center;
+    align-items: center;
+    // justify-content:space-between;
+  
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+ion-card-subtitle {
+  text-transform: none;
+}
+
+ion-item {
+  --ion-safe-area-right: 0;
+}
+
+ion-card-header {
+	padding: 5px;
+}
+
+ion-card-content {
+	padding-top: 10px;
+}

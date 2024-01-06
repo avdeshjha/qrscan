@@ -1,0 +1,25 @@
+Lowell Johson, Pixel Hangers 2020
+
+DESTRUCTIVE: 
+	This will delete the resources folder, replacing it with a copy of either resources_sfa or resources_redeem
+	Obviously, it also applies changes to various config files
+
+Usage: (running this script is DESTRUCTIVE, be careful)
+	from command line:
+		stop ionic serve (if running)
+		cd build_manager
+		./build_osx (or) ./build.exe
+		enter desired json settings file (found adjacent to binary)
+			ex: sfa-dev.json
+		hit enter
+		restart ionic serve
+		
+Management:
+	modify or create <setting>.json (ex: sfa-dev.json)
+	binaries are hard coded to look for keys in <settings>.json
+	if you want to add files or keys to be managable, main.go will need to be updated and binaries recompiled
+
+	to modify binaries, install go (including setting environment variables)
+	run "go get github.com/Jeffail" and "go get github.com/otiai10" to download required libraries
+	"cd build_manager" if not already there
+	run "go build main.go" to create binary for your current system or run with "go run main.go"

@@ -1,0 +1,264 @@
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FooterButton } from 'src/app/components/footer/footer.component';
+import { NavParams, ModalController, AlertController } from '@ionic/angular';
+import { Promo, RedeemStatus, Fulfillment, FFAction, RedeemMethod, FFData, SymbolType, Symbol, FFState, PromoType, EngageType } from 'src/app/services/model.service';
+import { DatabaseService } from 'src/app/services/database.service';
+import { FulfillmentService } from 'src/app/services/fulfillment.service';
+import { SymbologyService } from 'src/app/services/symbology.service';
+
+@Component({
+    selector: 'app-promo-details',
+    templateUrl: './promo-details.page.html',
+    styleUrls: ['./promo-details.page.scss'],
+})
+export class PromoDetailsPage implements OnInit {
+
+    //template control
+    buttons: FooterButton[] = [];
+    isRedeem: boolean = false;
+    isUnredeemed: boolean = false;
+    actionSymbol: Symbol<any>;
+    PromoType = PromoType;
+
+    promo: Promo;
+    ff: Fulfillment;
+    isPreview: boolean = false;
+    EngageType = EngageType;
+    // remainingTime = 300; 
+    // intervalId;
+
+    constructor(
+        public navParams: NavParams,
+        public modalCtrl: ModalController,
+        public alert: AlertController,
+        public database: DatabaseService,
+        public changeDetector: ChangeDetectorRef,
+        private ffService: FulfillmentService,
+        private symbology: SymbologyService
+    ) { }
+
+    ngOnInit() {
+        this.promo = this.navParams.get('promo');
+        this.isRedeem = this.promo.redeemStatus == RedeemStatus.SUBMITTED;
+        this.isUnredeemed = this.promo.redeemStatus == RedeemStatus.AVAILABLE;
+        this.ff = this.promo.getParentCampaign();
+        if (this.ff != null) {
+            let data: FFData = this.ff.ffData.find(d => d.type === SymbolType.Action);
+            this.actionSymbol = this.symbology.getSymbol<SymbolType.Action>(SymbolType.Action, data.code);    
+        }
+
+        // TODO remove this from navParams and from class. No longer in use
+        if (this.navParams.get("isPreview")) {
+            this.isPreview = this.navParams.get("isPreview");
+        }
+
+        console.log("RedeemMethodAllowed: " + this.promo.redeemMethodAllowed);
+        
+
+        let cancelButton: FooterButton = {
+            text: "Cancel",
+            icon: "close",
+            callback: (async () => {
+                await this.closeModal();
+            }).bind(this)
+        };
+
+        let redeemButton: FooterButton = {
+            text: "Redeem",
+            icon: "pricetags",
+            callback: (async () => {
+                if (!this.promo.redeemMethodAllowed) {
+                    const alert = await this.getRedeemMethodAllowedAlert();
+                    await alert.present();
+                    return;
+                }
+                // if (this.ff.getCancelState() === CancelState.SUBMITTED) {
+                //     const alert = await this.getCancelPendingAlert();
+                //     await alert.present();
+                //     return;
+                // }
+                // if (this.ff.state === FFState.CANCELED) {
+                //     const alert = await this.getCancelAlert();
+                //     await alert.present();
+                //     return;
+                // }
+                let redeemText: string = "Redeem";
+                switch(this.promo.redeemMethod) {
+                    case RedeemMethod.QUICK:
+                        redeemText = "Quick-Redeem";
+                        break;
+                    case RedeemMethod.SELF:
+                        redeemText = "Self-Redeem";
+                        break;
+                    case RedeemMethod.TRACKER:
+                        redeemText = "Tracker-Redeem";
+                        break;
+                    default:
+                        console.log("Unexpected redeemMethod: " + this.promo.redeemMethod);
+                        break;
+                }
+                const alert = await this.alert.create({
+                    header: 'Unlock this ' + this.promo.type + "?",
+                    message: 'After redemption process has started, it cannot be canceled',
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                            cssClass: 'secondary',
+                            handler: () => {
+                            }
+                        }, {
+                            text: redeemText,
+                            handler: (async () => {
+                                this.isRedeem = true;
+                                this.setRedeemButton();
+                                this.changeDetector.detectChanges();
+                                this.promo.redeemStatus = RedeemStatus.SUBMITTED;
+                                this.promo.initiateTime = Date.now();
+                                this.savePromo(this.promo);
+
+                                // function setupTimer() {
+                                //     let startTime = Math.round(this.promo.initiateTime/1000);
+                                //     let endTime = startTime + 20;
+                            
+                                //     function updateTimer() {
+                                //         let currentTime = Math.round(Date.now()/1000);
+                                
+                                //         console.log("Time left: " + (endTime - currentTime));
+                                //         this.remainingTime = endTime - currentTime;
+                                //     }
+                            
+                                //     this.intervalId = setInterval(updateTimer, 1000);
+                                //     updateTimer();
+                                // }
+
+                                // setupTimer.call(this);
+                            }).bind(this),
+                        }
+                    ]
+                });
+
+                await alert.present();
+            }).bind(this),
+            highlight: true
+        };
+
+        if (this.promo.redeemStatus == RedeemStatus.AVAILABLE && this.promo?.type == PromoType.COUPON || (this.promo?.type === PromoType.PUNCH && this.promo?.parentID && this.promo?.punch == undefined)) {
+            this.buttons = [cancelButton, redeemButton];
+        } else {
+            this.buttons = [cancelButton];
+        }
+    }
+
+    async closeModal() {
+        if (this.promo.redeemStatus == RedeemStatus.SUBMITTED) {
+            const alert = await this.alert.create({
+                header: 'Leave redemption page?',
+                message: 'Warning! Leaving this page will mark the promotion as redeemed.',
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        role: 'cancel',
+                        cssClass: 'secondary',
+                        handler: () => {
+                        }
+                    }, {
+                        text: 'Leave',
+                        handler: (async () => {
+                            this.promo.redeemStatus = RedeemStatus.REDEEMED;
+                            this.savePromo(this.promo);
+                            let ff: Fulfillment = await this.database.loadFF(this.promo.parentID);
+                            ff.ffAction = FFAction.UPDATE;
+                            this.ffService.addFulfillment(ff);
+                            // if (!!this.intervalId) {
+                            //     clearInterval(this.intervalId);
+                            // }
+                            this.modalCtrl.dismiss();
+                        }).bind(this)
+                    }
+                ]
+            });
+
+            await alert.present();
+        } else {
+            this.modalCtrl.dismiss();
+        }
+    }
+
+    setRedeemButton() {
+        let redeemButton: FooterButton = {
+            text: "Mark Redeemed",
+            icon: "checkmark",
+            callback: (async () => {
+                this.promo.redeemStatus = RedeemStatus.REDEEMED;
+                this.savePromo(this.promo);
+                let ff: Fulfillment = await this.database.loadFF(this.promo.parentID);
+                ff.ffAction = FFAction.REDEEM;
+                this.ffService.addFulfillment(ff);
+
+                // if (!!this.intervalId) {
+                //     clearInterval(this.intervalId);
+                // }
+                this.closeModal();
+            }).bind(this),
+            highlightBackground: true
+        };
+
+        this.buttons = [redeemButton];
+    }
+
+    savePromo(promo: Promo) {
+        this.database.savePromo(promo);
+    }
+
+    async getRedeemMethodAllowedAlert(): Promise<HTMLIonAlertElement> {
+        let alert = await this.alert.create({
+            header: 'Promo cannot be redeemed',
+            message: 'This promo requires the campaign registration to be confirmed before allowing redemption',
+            buttons: [
+                {
+                    text: 'Okay',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                    }
+                }
+            ]
+        });
+        return alert;
+    }
+
+    // async getCancelPendingAlert(): Promise<HTMLIonAlertElement> {
+    //     let alert = await this.alert.create({
+    //         header: 'Promo cannot be redeemed',
+    //         message: 'Promo cannot be redeemed while the campaign cancel request is pending',
+    //         buttons: [
+    //             {
+    //                 text: 'Okay',
+    //                 role: 'cancel',
+    //                 cssClass: 'secondary',
+    //                 handler: () => {
+    //                 }
+    //             }
+    //         ]
+    //     });
+    //     return alert;
+    // }
+
+    // async getCancelAlert(): Promise<HTMLIonAlertElement> {
+    //     let alert = await this.alert.create({
+    //         header: 'Promo cannot be redeemed',
+    //         message: 'Promo cannot be redeemed if the submitted campaign is canceled',
+    //         buttons: [
+    //             {
+    //                 text: 'Okay',
+    //                 role: 'cancel',
+    //                 cssClass: 'secondary',
+    //                 handler: () => {
+    //                 }
+    //             }
+    //         ]
+    //     });
+    //     return alert;
+    // }
+}
