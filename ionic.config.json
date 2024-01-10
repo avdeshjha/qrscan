@@ -1,9 +1,0 @@
-{
-  "name": "ph-qrscan",
-  "integrations": {
-    "cordova": {},
-    "capacitor": {}
-  },
-  "type": "angular",
-  "id": "c1876cfd"
-}
