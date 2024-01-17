@@ -1,0 +1,25 @@
+<ion-content padding>
+
+	<div style='text-align: center'>
+		Edit Fulfillment <br />
+		<p>
+			{{ actionSymbol.text }} <br />
+			{{ ff.getOrg() }} <br />
+			{{ ff.getDescription() }} <br />
+		</p>
+	</div>
+
+	<div style='overflow:scroll; flex-grow: 1;overflow-y: scroll;'>
+		<ion-list lines='none' class='symbolsList'>
+			<ion-item *ngFor='let s of inputSymbols'>
+				<symbol [symbol]='s' (validate)='validate()'></symbol>
+			</ion-item>
+		</ion-list>
+	</div>
+
+	<div>
+		<ion-button (click)='cancel()'>Close</ion-button>
+		<ion-button (click)='update()' [disabled]='updated'>{{ updated ? 'Updated' : 'Send Update' }}</ion-button>
+	</div>
+
+</ion-content>

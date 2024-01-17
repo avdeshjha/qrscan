@@ -1,0 +1,35 @@
+<header disableControls='true'></header>
+
+<div class='pageTitle'>
+  <h3>First Time Setup</h3>
+</div>
+<ion-content padding style='background-color: white;'>
+
+  <div>
+    The following system settings are required
+  </div>
+
+  <ion-list *ngIf='!!settings'>
+
+    <ion-item>
+      <ion-label position="floating">Reader ID</ion-label>
+      <ion-input type='text' [(ngModel)]='settings.readerID' (ionBlur)='saveSettings()'></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Max Timeout (seconds)</ion-label>
+      <ion-input type='number' [(ngModel)]='settings.timeout' (ionBlur)='saveSettings()'></ion-input>
+    </ion-item>
+
+  </ion-list>
+
+  <div style='padding: 30px; width:100%; text-align: center;'>
+    <ion-button [disabled]='!settingsReady()' (click)="leaveSetup()">Continue to app</ion-button>
+  </div>
+
+  <div>
+    These system settings can be updated later on the <div style='display:inline-block'><ion-icon name='settings'></ion-icon>System</div> page
+  </div>
+  
+
+</ion-content>

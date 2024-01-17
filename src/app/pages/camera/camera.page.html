@@ -1,0 +1,52 @@
+<header></header>
+
+<ion-content no-bounce has-bouncing="false" forceOverscroll="false">
+  <div id="reticle-container">
+    <h3 *ngIf="!cameraAvailable" (click)="scan(testQRData)">
+      <ion-icon name="information-circle-outline"></ion-icon> Camera not
+      available
+    </h3>
+    <div *ngIf="cameraAvailable" id="reticle">
+      <span *ngIf="scanState"> {{ scanState }} </span>
+    </div>
+  </div>
+
+  <!-- For tester -->
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="staticData()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="top" horizontal="end" slot="fixed" style="top: 75px">
+    <ion-fab-button (click)="clearDB()">
+      <ion-icon name="trash"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="scan(testQRData)">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+
+  <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="test1()">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="test2()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="test3()">
+      <ion-icon name="stop"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="toggleFlashlight(false)">
+    <ion-fab-button>
+      <ion-icon name="flashlight"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+</ion-content>
+
+<footer [buttons]="[]" [page]="page"></footer>

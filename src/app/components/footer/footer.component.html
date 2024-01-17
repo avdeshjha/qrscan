@@ -1,0 +1,16 @@
+<ion-footer slot='bottom'>
+
+    <div class='ad' *ngIf='isShowAd()' (click)='hideAd()'>
+      <div>
+        [ advertisement banner ]
+      </div>
+    </div>
+
+    <div class='buttons' *ngIf='buttons' [ngStyle]="{'background-color' : highlightBackground ? 'palegreen' : ''}">
+      <div class='button' *ngFor='let b of buttons' (click)='buttonClick($event, b)' [ngClass]="{'selected' : b.selected, 'highlight': b.highlight, 'highlightBackground' : b.highlightBackground}">
+        <ion-icon *ngIf='b.icon' name="{{ b.icon }}"></ion-icon>
+        {{ b.text }}
+      </div>
+    </div>
+
+</ion-footer>

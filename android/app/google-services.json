@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "1013733587832",
+    "firebase_url": "https://sfa-push-8e0a3.firebaseio.com",
+    "project_id": "sfa-push-8e0a3",
+    "storage_bucket": "sfa-push-8e0a3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013733587832:android:56fe48dd4085e62f07268d",
+        "android_client_info": {
+          "package_name": "com.pixelhangers.sfa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013733587832-pmdssi30ak33ivp8ok9fglsfu0n2gijd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOb5t5AIMHVdhjHLAu3v_uu3MgkPUUrmY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013733587832-pmdssi30ak33ivp8ok9fglsfu0n2gijd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1013733587832-k3vbqf1qnl65vehavda58eql5s8rrr7n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pixelhangers.sfa"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013733587832:android:29a0af901be55ca207268d",
+        "android_client_info": {
+          "package_name": "com.pixelhangers.sfa.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013733587832-pmdssi30ak33ivp8ok9fglsfu0n2gijd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOb5t5AIMHVdhjHLAu3v_uu3MgkPUUrmY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013733587832-pmdssi30ak33ivp8ok9fglsfu0n2gijd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1013733587832-k3vbqf1qnl65vehavda58eql5s8rrr7n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pixelhangers.sfa"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013733587832:android:9580a7b3aef182d907268d",
+        "android_client_info": {
+          "package_name": "com.pixelhangers.sfa.testing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013733587832-pmdssi30ak33ivp8ok9fglsfu0n2gijd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOb5t5AIMHVdhjHLAu3v_uu3MgkPUUrmY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013733587832-pmdssi30ak33ivp8ok9fglsfu0n2gijd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1013733587832-k3vbqf1qnl65vehavda58eql5s8rrr7n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pixelhangers.sfa"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

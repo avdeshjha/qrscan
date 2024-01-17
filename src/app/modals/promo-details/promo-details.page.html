@@ -1,0 +1,472 @@
+<header (back)="closeModal()"></header>
+
+<div style="overflow-y: auto">
+  <div class="header">
+    <h4 class="heading">
+      <div *ngIf="promo.org">{{ promo.org }}</div>
+    </h4>
+    <div *ngIf="promo.campaignDescription">{{ promo.campaignDescription }}</div>
+    <br />
+
+    <!--promotomobile and eCoupon -->
+    <!-- <div *ngIf="promo.type != PromoType.PUNCH && !promo.isDrawing() && (promo.isPromoToMobile() || promo.isCoupon())"> -->
+    <div *ngIf="promo.type == PromoType.COUPON">
+      <div *ngIf="promo.isCouponWhen2()">
+        <h4 *ngIf="promo.getIncentOrg(); else showSponsor" class="heading">
+          {{promo.getIncentOrg()}} Bonus
+        </h4>
+        <ng-template #showSponsor>
+          <h4 *ngIf="promo.org" class="heading">
+            {{promo.org}} Bonus
+          </h4>
+        </ng-template>
+        <div *ngIf="promo.getCampIncentiveDescription()">
+          {{promo.getCampIncentiveDescription()}}
+        </div>
+      </div>
+
+      <h4 class="heading">
+        <span *ngIf="promo.redeemStatus"> {{ promo.redeemStatus }} - </span>
+        <span>eCoupon</span>
+        <div *ngIf="promo.isCouponWhen2(); else showDesc">
+          <div *ngIf="promo.getIncentiveDescription()">
+            {{promo.getIncentiveDescription()}}
+          </div>
+        </div>
+        <ng-template #showDesc>
+          <div *ngIf="promo.itemDescription">{{ promo.itemDescription }}</div>
+        </ng-template>
+      </h4>
+
+      <div *ngIf="promo.isCouponWhen2(); else showEngagement">
+        <div *ngIf="promo.getIncentSite()">
+          {{ promo.getIncentSite() }} <br />
+        </div>
+        <div *ngIf="promo.getIncentLocation()">
+          {{ promo.getIncentLocation() }} <br />
+        </div>
+        <div
+          *ngIf="promo.getIncentPrice() && promo.getIncentLimit(); else elseBlock"
+        >
+          Price: ${{ promo.getIncentPrice() }} Limit: {{ promo.getIncentLimit()
+          }} <br />
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="promo.getIncentPrice()">
+            Price: ${{ promo.getIncentPrice() }}
+          </div>
+          <div *ngIf="promo.getIncentLimit()">
+            Limit: {{ promo.getIncentLimit() }}
+          </div>
+        </ng-template>
+      </div>
+      <ng-template #showEngagement>
+        <div *ngIf="promo.site">
+          <div *ngIf="promo.getCustomSite(); else showSite">
+            {{ promo.getCustomSite() }} <br />
+          </div>
+          <ng-template #showSite> {{ promo.site }} <br /> </ng-template>
+        </div>
+        <div *ngIf="promo.location">
+          <div *ngIf="promo.getCustomLocation(); else showLocation">
+            {{ promo.getCustomLocation() }} <br />
+          </div>
+          <ng-template #showLocation> {{ promo.location }} <br /> </ng-template>
+        </div>
+        <div *ngIf="promo.price && promo.limit; else elseBlock">
+          Price: ${{ promo.price }} Limit: {{ promo.limit }} <br />
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="promo.price">Price: ${{ promo.price }}</div>
+          <div *ngIf="promo.limit">Limit: {{ promo.limit }}</div>
+        </ng-template>
+      </ng-template>
+
+      <br />
+      <div class="details">
+        <div *ngIf="promo.getRedeemMethod(); else RMelseBlock">
+          {{promo.getRedeemMethod()}}:
+        </div>
+        <ng-template #RMelseBlock> Redeem Type: </ng-template>
+        <div class="showdate">
+          <div *ngIf="promo.getCouponDateStart() && promo.isCouponWhen2(); else showstarttime">
+            From: {{ promo.getCouponDateStart() }}
+          </div>
+          <ng-template #showstarttime>
+            <div *ngIf="promo.getFormattedStartDateTime()">
+              From: {{ promo.getFormattedStartDateTime() }}
+            </div>
+          </ng-template>
+          <div *ngIf="promo.getCouponDate() && promo.isCouponWhen2(); else showendtime">
+            To: {{ promo.getCouponDate() }}
+          </div>
+          <ng-template #showendtime> 
+            <div *ngIf="promo.getFormattedEndDateTime()">
+              To: {{ promo.getFormattedEndDateTime() }}
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <br />
+      <div>Opt-in: {{ ff.getFormattedSubmitTime() }}</div>
+    </div>
+
+    <!-- Drawing -->
+    <!-- <div *ngIf="promo.type != PromoType.PUNCH && promo.isDrawing()"> -->
+    <div *ngIf="promo.type == PromoType.DRWAING">
+      <h4 *ngIf="promo.getIncentOrg()" class="heading">
+        {{promo.getIncentOrg()}} Bonus
+      </h4>
+      <div>
+        <span *ngIf="promo.redeemStatus"> {{ promo.redeemStatus }} - </span>
+        <span>Drawing</span>
+      </div>
+      <div *ngIf="promo.getCampIncentiveDescription()">
+        {{promo.getCampIncentiveDescription()}}
+      </div>
+      <h4 *ngIf="promo.getIncentiveDescription()" class="heading">
+        Win! - {{ promo.getIncentiveDescription() }}
+      </h4>
+      <br />
+      <div *ngIf="promo.getIncentSite()">
+        Drawing Site: {{ promo.getIncentSite() }}
+      </div>
+      <div *ngIf="promo.getIncentLocation()">
+        Location: {{ promo.getIncentLocation() }}
+      </div>
+      <div *ngIf="promo.getDrawingDate()">
+        Drawing Date: {{ promo.getDrawingDate() }}
+      </div>
+      <br />
+      <div>Opt-in: {{ ff.getFormattedSubmitTime() }}</div>
+    </div>
+
+    <!-- Reward -->
+    <div
+      *ngIf="promo.type === PromoType.PUNCH && promo.parentID && promo._punch == undefined"
+    >
+      <div *ngIf="promo?.getParentCampaign()?.getEngageType() != EngageType.PUNCH && (promo?.isCoupon() || promo?.isDrawing() || promo?.isPromoToMobile() || promo?.isPunch())">
+        <h4 *ngIf="promo.getIncentOrg()" class="heading">
+          {{promo.getIncentOrg()}} Bonus
+        </h4>
+        <div *ngIf="promo.getCampIncentiveDescription()">
+          {{promo.getCampIncentiveDescription()}}
+        </div>
+      </div>
+      <h4 class="heading">
+        <div>
+          <span *ngIf="promo?.redeemStatus">{{ promo.redeemStatus }} - </span>
+          Reward
+        </div>
+        <div *ngIf="promo?.getParentCampaign()?.getEngageType() != EngageType.PUNCH && (promo?.isCoupon() || promo?.isDrawing() || promo?.isPromoToMobile() || promo?.isPunch()); else engBlock">
+          <div *ngIf="promo.getIncentiveDescription()">
+            Reward: {{promo.getIncentiveDescription()}}
+          </div>
+        </div>
+        <ng-template #engBlock>
+          <div *ngIf="promo?.itemDescription">
+            Reward: {{ promo.itemDescription }}
+          </div>
+        </ng-template>
+      </h4>
+
+    
+      <div>
+        <div *ngIf="promo?.getRewardSite()">
+          {{ promo.getRewardSite() }} <br />
+        </div>
+        <div *ngIf="promo?.getRewardLocation()">
+          {{ promo.getRewardLocation() }} <br />
+        </div>    
+        <div *ngIf="promo.price && promo.limit; else elseBlock">
+          Price: ${{ promo.price }} Limit: {{ promo.limit }} <br />
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="promo.price">Price: ${{ promo.price }}</div>
+          <div *ngIf="promo.limit">Limit: {{ promo.limit }}</div>
+        </ng-template>
+      </div>
+
+      <br />
+      <div class="details">
+        <div *ngIf="promo.getRedeemMethod(); else RMelseBlock">
+          {{promo.getRedeemMethod()}}:
+        </div>
+        <ng-template #RMelseBlock> Redeem Type: </ng-template>
+        <div class="showdate">
+          <div *ngIf="promo.getRewardDateStart(); else showstarttime">
+            From: {{ promo.getRewardDateStart() }}
+          </div>
+          <ng-template #showstarttime>
+            <div *ngIf="promo.getFormattedStartDateTime()">
+              From: {{ promo.getFormattedStartDateTime() }}
+            </div>
+          </ng-template>
+          <div *ngIf="promo.getRewardDateEnd() else showendtime">
+            To: {{ promo.getRewardDateEnd() }}
+          </div>
+          <ng-template #showendtime> 
+            <div *ngIf="promo.getFormattedEndDateTime()">
+              To: {{ promo.getFormattedEndDateTime() }}
+            </div>
+          </ng-template>
+        </div>
+      </div>
+      <br />
+      <div>Opt-in: {{ ff.getFormattedSubmitTime() }}</div>
+    </div>
+
+    <!-- Punch No Card -->
+    <div
+      *ngIf="promo.type == PromoType.PUNCH && !promo.parentID && promo._punch != undefined"
+    >
+      <h4 class="heading">
+        <div>
+          Alert - ePunch No Card
+        </div>
+        <div *ngIf="promo?.itemDescription">
+          Reward: {{ promo.itemDescription }}
+        </div>
+      </h4>
+      <div *ngIf="promo.getCustomSite()">{{ promo.getCustomSite() }}</div>
+      <div *ngIf="promo?._punch?._actionText">
+        {{ promo._punch._actionText }} Earn {{ promo.getEpunchWiseText() }}
+      </div>
+      <div *ngIf="promo.punch.punchesRequired">
+        Earned: {{ promo.getEpunchWiseText2() }} {{ promo.getEpunchWiseText1()
+        }} needed
+      </div>
+      <div *ngIf="promo.site && !promo.getCustomSite()">{{ promo.site }}</div>
+      <div *ngIf="promo.location">
+        <div *ngIf="promo.getCustomLocation(); else showLocation">
+          {{ promo.getCustomLocation() }}
+        </div>
+        <ng-template #showLocation> {{ promo.location }} </ng-template>
+      </div>
+      <div *ngIf="promo.price && promo.limit; else elseBlock">
+        Price: ${{ promo.price }} Limit: {{ promo.limit }}
+      </div>
+      <ng-template #elseBlock>
+        <div *ngIf="promo.price">Price: ${{ promo.price }}</div>
+        <div *ngIf="promo.limit">Limit: {{ promo.limit }}</div>
+      </ng-template>
+      <div *ngIf="ff?.getFormattedSubmitTime(); else showPromoAddedTime">
+        Date: {{ ff?.getFormattedSubmitTime() }}
+      </div>
+      <ng-template #showPromoAddedTime> 
+        <div *ngIf="promo.getFormattedSubmitTime()">
+          Date: {{ promo.getFormattedSubmitTime() }}
+        </div>
+      </ng-template>
+      <br />
+      <div class="details">
+        <div>Earn ePunches:</div>
+        <div class="showdate">
+          <div *ngIf="promo.getPunchDateStart(); else showstarttime">
+            From: {{ promo.getPunchDateStart() }}
+          </div>
+          <ng-template #showstarttime>
+            <div *ngIf="promo.getFormattedStartDateTime()">
+              From: {{ promo.getFormattedStartDateTime() }}
+            </div>
+          </ng-template>
+          <div *ngIf="promo.getPunchDate() else showendtime">
+            To: {{ promo.getPunchDate() }}
+          </div>
+          <ng-template #showendtime> 
+            <div *ngIf="promo.getFormattedEndDateTime()">
+              To: {{ promo.getFormattedEndDateTime() }}
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <!-- ePunch Card -->
+    <div
+      *ngIf="promo.type == PromoType.PUNCH && promo.parentID && promo._punch != undefined"
+    >
+      <div *ngIf="promo?.getParentCampaign()?.getEngageType() != EngageType.PUNCH && (promo?.isCoupon() || promo?.isDrawing() || promo?.isPromoToMobile() || promo?.isPunch())">
+        <h4 *ngIf="promo.getIncentOrg()" class="heading">
+          {{promo.getIncentOrg()}} Bonus
+        </h4>
+        <div *ngIf="promo.getCampIncentiveDescription()">
+          {{promo.getCampIncentiveDescription()}}
+        </div>
+      </div>
+
+      <h4 class="heading">
+        <div>
+          <span *ngIf="promo?.redeemStatus">{{ promo.redeemStatus }} - </span>
+          <span *ngIf='promo.getPunchTypeText()'>{{ promo.getPunchTypeText() }} </span>
+        </div>
+        <div *ngIf="promo?.getParentCampaign()?.getEngageType() != EngageType.PUNCH && (promo?.isCoupon() || promo?.isDrawing() || promo?.isPromoToMobile() || promo?.isPunch()); else engBlock">
+          <div *ngIf="promo.getIncentiveDescription()">
+            Reward: {{ promo.getIncentiveDescription() }}
+          </div>
+        </div>
+        <ng-template #engBlock>
+          <div *ngIf="promo?.itemDescription">
+            Reward: {{ promo.itemDescription }}
+          </div>
+        </ng-template>
+      </h4>
+      
+      <div *ngIf="promo.getIncentCustomSite() && promo?.getParentCampaign()?.getEngageType() != EngageType.PUNCH && (promo?.isCoupon() || promo?.isDrawing() || promo?.isPromoToMobile() || promo?.isPunch()); else showEngSite">
+        {{ promo.getIncentCustomSite() }}
+      </div>
+      <ng-template #showEngSite>
+        <div *ngIf="promo.getCustomSite()">{{ promo.getCustomSite() }}</div>
+      </ng-template>
+
+      <div *ngIf="promo?._punch?._actionText">
+        {{ promo._punch._actionText }} Earn {{ promo.getEpunchWiseText() }}
+      </div>
+      <div *ngIf="promo.punch.punchesRequired">
+        Earned: {{ promo.getEpunchWiseText2() }} {{ promo.getEpunchWiseText1()
+        }} needed
+      </div>
+
+      <div *ngIf="promo.site && !promo.getCustomSite()">{{ promo.site }}</div>
+
+      <div *ngIf="promo?.getParentCampaign()?.getEngageType() != EngageType.PUNCH && (promo?.isCoupon() || promo?.isDrawing() || promo?.isPromoToMobile() || promo?.isPunch()); else engmentDetails">
+        <div *ngIf="promo.getIncentLocation()">
+          {{ promo.getIncentLocation() }}
+        </div>
+        <div *ngIf="promo.getIncentPrice() && promo.getIncentLimit(); else elseBlock">
+          Price: ${{ promo.getIncentPrice() }} Limit: {{ promo.getIncentLimit()
+          }}
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="promo.getIncentPrice()">
+            Price: ${{ promo.getIncentPrice() }}
+          </div>
+          <div *ngIf="promo.getIncentLimit()">
+            Limit: {{ promo.getIncentLimit() }}
+          </div>
+        </ng-template>
+      </div>
+      <ng-template #engmentDetails>
+        <div *ngIf="promo.location">
+          <div *ngIf="promo.getCustomLocation(); else showLocation">
+            {{ promo.getCustomLocation() }}
+          </div>
+          <ng-template #showLocation> {{ promo.location }} </ng-template>
+        </div>
+        <div *ngIf="promo.price && promo.limit; else elseBlock">
+          Price: ${{ promo.price }} Limit: {{ promo.limit }}
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="promo.price">Price: ${{ promo.price }}</div>
+          <div *ngIf="promo.limit">Limit: {{ promo.limit }}</div>
+        </ng-template>
+      </ng-template>
+      <br />
+      <div class="details">
+        <div>Earn ePunches:</div>
+        <div class="showdate">
+          <div *ngIf="promo.getPunchDateStart(); else showstarttime">
+            From: {{ promo.getPunchDateStart() }}
+          </div>
+          <ng-template #showstarttime>
+            <div *ngIf="promo.getFormattedStartDateTime()">
+              From: {{ promo.getFormattedStartDateTime() }}
+            </div>
+          </ng-template>
+          <div *ngIf="promo.getPunchDate() else showendtime">
+            To: {{ promo.getPunchDate() }}
+          </div>
+          <ng-template #showendtime> 
+            <div *ngIf="promo.getFormattedEndDateTime()">
+              To: {{ promo.getFormattedEndDateTime() }}
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+      <br />
+      <div>Opt-in: {{ ff.getFormattedSubmitTime() }}</div>
+    </div>
+
+    <!-- <h3>
+      {{ promo.type }} - Details <br />
+      <div
+        *ngIf="promo.type === PromoType.PUNCH && promo?.punch; else notPunch"
+      >
+        {{ promo.redeemStatus }} {{ promo.punch.punchCount }} of {{
+        promo.punch.punchesRequired }} - {{ promo.type }}
+      </div>
+      <ng-template #notPunch>
+        {{ promo.redeemStatus }} - {{ promo.redeemMethod }}
+      </ng-template>
+    </h3> -->
+
+    <!-- {{ promo.description }} <br />
+    <div *ngIf="promo.org">Sponsor: {{ promo.org }} <br /></div>
+    <div class="details">
+      <br />
+      <div *ngIf="promo.itemDescription">
+        Item: {{ promo.itemDescription }} <br />
+      </div>
+      <div *ngIf="promo.price && promo.limit; else elseBlock">
+        Price: {{ promo.price }} Limit: {{ promo.limit }} <br />
+      </div>
+      <ng-template #elseBlock>
+        <div *ngIf="promo.price">Price: {{ promo.price }} <br /></div>
+        <div *ngIf="promo.limit">Limit: {{ promo.limit }} <br /></div>
+      </ng-template>
+      <div *ngIf="promo.site">
+        <div *ngIf="promo.getCustomSite(); else showSite">
+          {{ promo.getCustomSite() }} <br />
+        </div>
+        <ng-template #showSite> {{ promo.site }} <br /> </ng-template>
+      </div>
+      <div *ngIf="promo.location">
+        <div *ngIf="promo.getCustomLocation(); else showLocation">
+          {{ promo.getCustomLocation() }} <br />
+        </div>
+        <ng-template #showLocation> {{ promo.location }} <br /> </ng-template>
+      </div>
+      <table>
+        <tr>
+          <td>Valid&nbsp;&nbsp;&nbsp;</td>
+          <td>From: {{ promo.getFormattedEndDateTime() }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>To: {{ promo.getFormattedEndDateTime() }}</td>
+        </tr>
+      </table>
+    </div> -->
+
+    <!-- <br />
+    <div *ngIf="promo.getParentCampaign() != null">
+      <h3>
+        {{ actionSymbol.text }} - Engagement <br />
+        {{ promo.campaignDescription }}
+      </h3>
+      <div class="details">Submitted: {{ ff.getFormattedSubmitTime() }}</div>
+    </div> -->
+
+    <br />
+    <div *ngIf="isRedeem" class="qrImage">
+      <div style="display: flex; justify-content: center; text-align: center">
+        <qrcode [qrdata]="promo.qrData" [size]="250" [level]="'M'"></qrcode>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="promo.type == PromoType.COUPON || (promo.type === PromoType.PUNCH && promo.parentID && promo._punch == undefined)" >
+    <!-- <ion-content padding> -->
+      <div class="bottomAnchor" *ngIf="!isRedeem && isUnredeemed && !isPreview">
+        Note: Select Redeem and you will not be able to cancel the redemption
+        process. Don't select redeem until an agent is ready to honor your
+        redemption code.
+      </div>
+    <!-- </ion-content> -->
+  </div>
+</div>
+
+<div *ngIf="!isPreview">
+  <footer [buttons]="buttons" [page]="null"></footer>
+</div>

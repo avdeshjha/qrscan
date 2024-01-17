@@ -1,0 +1,154 @@
+symbol {
+  width: 100%;
+}
+
+.symbolsList ion-item{
+  --padding-end: 0px;
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+  --inner-padding-start: 0px;
+}
+
+.missingDataError {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid red;
+  background-color: pink;
+  color: black;
+  text-align: center;
+}
+
+.surveySelected {
+  border: 1px solid blue;
+}
+
+.approvalItem {
+  width: 100%;
+  --padding-end: 0px;
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+  --inner-padding-start: 0px;
+  ion-card {
+    width: 100%;
+  }
+}
+
+.approvalCardTitle {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 17px;
+}
+
+.approvalElements {
+  font-size: 15px;
+}
+
+.skipToggle {
+  display: inline-flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-end;
+  font-weight: 200;
+}
+
+.followupList{
+	ion-item ion-icon{
+    padding-right: 3px;
+  }
+}
+
+div.details {
+  margin-left: 5%;
+  margin-right: 5%;
+  text-align: left;
+}
+
+div.progressString{
+  text-align: center;
+  color: grey;
+  padding-top: 10px;
+}
+
+div.bottomAnchor{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+h3.heading {
+  margin: 0;
+  padding: 0;
+}
+h4.heading {
+  margin: 0;
+  padding: 0;
+}
+h5.heading {
+  margin: 0;
+  padding: 0;
+}
+div.showdate {
+  margin-left: 50px;
+}
+div.divider {
+  width: 100%;
+  height: 1px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  background-color: black;
+}
+
+.input-box1 {
+  --background: rgba(0, 255, 255, 0);
+  --color: #000000;
+  --border: solid 10px blue;
+  --placeholder-color: #808080;
+  --border-radius: 3px;
+        
+  --padding-bottom: 10px;
+  --padding-end: 10px;
+  --padding-start: 10px;
+  --padding-top: 10px;
+}
+
+.input-box {
+  border-color: blue;
+  --border-color: #ffffff;
+  border-width: thin;
+  border-style: solid;
+  position: static;
+  --placeholder-color: #808080;
+  width: 96%;
+  margin-left: 2%;
+  margin-top: 8px;
+  --highlight-background: #ffffff;
+}
+
+.ion-margin {
+  margin-left: 2%;
+  margin-top: 12px;
+}
+
+.ion-star-margin {
+  margin-right: 1%;
+}
+.right-align {
+  margin-left: 2%;
+  position: absolute;
+  top: 50%;
+}
+
+.radioBtn {
+  color: #ffffff;
+  border-color: white !important;
+  background-color: white !important;
+ --ion-color-primary: #ffffff;
+ border-color: #ffffff;
+}

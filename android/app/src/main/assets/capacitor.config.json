@@ -1,0 +1,41 @@
+{
+	"appId": "com.pixelhangers.sfa.testing",
+	"appName": "QR Advantage",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"plugins": {
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		},
+		"SplashScreen": {
+			"launchAutoHide": false,
+			"androidScaleType": "CENTER_CROP",
+			"splashImmersive": true,
+			"backgroundColor": "#00405b"
+		}
+	},
+	"cordova": {
+		"preferences": {
+			"ScrollEnabled": "false",
+			"android-minSdkVersion": "22",
+			"BackupWebStorage": "none",
+			"SplashMaintainAspectRatio": "true",
+			"FadeSplashScreenDuration": "300",
+			"SplashShowOnlyFirstTime": "true",
+			"SplashScreen": "screen",
+			"KeyboardStyle": "dark",
+			"KeyboardResizeMode": "ionic",
+			"SplashScreenDelay": "1000",
+			"Orientation": "portrait",
+			"DisableDeploy": "true",
+			"WKWebViewOnly": "true"
+		}
+	},
+	"ios": {
+		"scheme": "QR Advantage"
+	}
+}
