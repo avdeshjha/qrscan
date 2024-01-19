@@ -210,8 +210,8 @@ export class SymbologyService {
           const code: string = element.substring(0, i);
           const value: string = element.substring(i);
 
-          // console.log('0.getSymbol:' + code);
-          // console.log('1.getValue:' + value);
+          console.log('0.getSymbol:' + code);
+          console.log('1.getValue:' + value);
           let symbol: Symbol<SymbolType.QRCode> =
             this.getSymbol<SymbolType.QRCode>(SymbolType.QRCode, code);
           if (!!symbol) {

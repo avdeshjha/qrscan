@@ -92,6 +92,7 @@ export interface FFData {
 }
 
 export enum FFState {
+  OPT_IN = "Opt-In",
   SUBMITTED = 'Submitted',
   PENDING = 'Pending',
   REGISTERED = 'Registered',
@@ -200,7 +201,10 @@ export class Fulfillment implements Persistant {
   }
 
   public getUserFacingState(): FFState {
+    console.log("FF State: " + this.state)
     switch (this.state) {
+      case FFState.OPT_IN:
+        return FFState.OPT_IN;
       case FFState.SUBMITTED:
         return FFState.SUBMITTED;
       case FFState.REGISTERED:
@@ -1195,7 +1199,7 @@ export class Fulfillment implements Persistant {
 
     let referenceDateTime: DateTime;
     if (this.getRemoteClockMode()) {
-      referenceDateTime = DateTime.uct();
+      referenceDateTime = DateTime.utc();
     } else {
       referenceDateTime = DateTime.local();
       Settings.defaultZoneName = "UTC";
@@ -1231,9 +1235,9 @@ export class Fulfillment implements Persistant {
 
     let referenceDateTime: DateTime;
     if (this.getRemoteClockMode()) {
-      referenceDateTime = DateTime.uct(2022, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.utc(2024, 1, 1, 0, 0, 0, 0);
     } else {
-      referenceDateTime = DateTime.local(2022, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.local(2024, 1, 1, 0, 0, 0, 0);
       Settings.defaultZoneName = "UTC";
     }
 
@@ -1247,9 +1251,12 @@ export class Fulfillment implements Persistant {
     if (splitData.length > 1) {
       endString = splitData[1];
     }
-
+    console.log("referenceDateTime: " + referenceDateTime);
+    console.log("startString: " + startString);
+    console.log("endString: " + endString);
     if (startString != null) {
       interval.start = referenceDateTime.plus({ minutes: this.base64toNumber(startString) });
+      // interval.start = this.base64toNumber(startString);
     }
     if (endString != null) {
       interval.end = referenceDateTime.plus({ minutes: this.base64toNumber(endString) });
@@ -1593,9 +1600,9 @@ export class FFPunchPropertiesParser {
 
     let referenceDateTime: DateTime;
     if (this.getRemoteClockMode(ffData)) {
-      referenceDateTime = DateTime.uct(2022, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.utc(2024, 1, 1, 0, 0, 0, 0);
     } else {
-      referenceDateTime = DateTime.local(2022, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.local(2024, 1, 1, 0, 0, 0, 0);
       Settings.defaultZoneName = "UTC";
     }
 
