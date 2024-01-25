@@ -1235,9 +1235,9 @@ export class Fulfillment implements Persistant {
 
     let referenceDateTime: DateTime;
     if (this.getRemoteClockMode()) {
-      referenceDateTime = DateTime.utc(2024, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.uct(2022, 1, 1, 0, 0, 0, 0);
     } else {
-      referenceDateTime = DateTime.local(2024, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.local(2022, 1, 1, 0, 0, 0, 0);
       Settings.defaultZoneName = "UTC";
     }
 
@@ -1251,12 +1251,9 @@ export class Fulfillment implements Persistant {
     if (splitData.length > 1) {
       endString = splitData[1];
     }
-    console.log("referenceDateTime: " + referenceDateTime);
-    console.log("startString: " + startString);
-    console.log("endString: " + endString);
+
     if (startString != null) {
       interval.start = referenceDateTime.plus({ minutes: this.base64toNumber(startString) });
-      // interval.start = this.base64toNumber(startString);
     }
     if (endString != null) {
       interval.end = referenceDateTime.plus({ minutes: this.base64toNumber(endString) });
@@ -1600,9 +1597,9 @@ export class FFPunchPropertiesParser {
 
     let referenceDateTime: DateTime;
     if (this.getRemoteClockMode(ffData)) {
-      referenceDateTime = DateTime.utc(2024, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.uct(2022, 1, 1, 0, 0, 0, 0);
     } else {
-      referenceDateTime = DateTime.local(2024, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.local(2022, 1, 1, 0, 0, 0, 0);
       Settings.defaultZoneName = "UTC";
     }
 
