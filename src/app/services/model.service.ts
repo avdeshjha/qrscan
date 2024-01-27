@@ -1235,11 +1235,14 @@ export class Fulfillment implements Persistant {
 
     let referenceDateTime: DateTime;
     if (this.getRemoteClockMode()) {
-      referenceDateTime = DateTime.uct(2022, 1, 1, 0, 0, 0, 0);
+      referenceDateTime = DateTime.utc(2022, 1, 1, 0, 0, 0, 0);
     } else {
-      referenceDateTime = DateTime.local(2022, 1, 1, 0, 0, 0, 0);
       Settings.defaultZoneName = "UTC";
+      referenceDateTime = DateTime.local(2022, 1, 1, 0, 0, 0, 0);
+      // Settings.defaultZoneName = "UTC";
     }
+
+    console.log("referenceDateTime: " + this.getRemoteClockMode());
 
     let splitData: string[] = data.parts[0].value.split(',');
     if (splitData.length != 2) {
@@ -1984,7 +1987,9 @@ export class Promo implements Persistant {
 
   private formatDateTime(dateTime: DateTime) {
     if (!dateTime) return null;
-    return dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const datetime= dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    // console.log("0.DateTime::::" + datetime);
+    return datetime;
   }
 
   public get punch(): Punch {
@@ -2433,7 +2438,9 @@ export class PunchData implements Persistant {
 
   private formatDateTime(dateTime: DateTime) {
     if (!dateTime) return null;
-    return dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const datetime = dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    // console.log("1.DateTime::::" + datetime);
+    return datetime;
   }
 
   public get punch(): Punch {
@@ -2617,7 +2624,9 @@ export class EventWGuestData implements Persistant {
 
   private formatDateTime(dateTime: DateTime) {
     if (!dateTime) return null;
-    return dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const datetime = dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    console.log("2.DateTime::::" + datetime);
+    return datetime;
   }
 
   public get punch(): Punch {
@@ -2784,7 +2793,9 @@ export class SurveyData implements Persistant {
 
   private formatDateTime(dateTime: DateTime) {
     if (!dateTime) return null;
-    return dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    const datetime = dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+    // console.log("3.DateTime::::" + datetime);
+    return datetime;
   }
 
   public get punch(): Punch {
