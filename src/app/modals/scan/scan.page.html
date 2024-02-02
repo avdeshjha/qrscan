@@ -1049,7 +1049,7 @@
       <ion-list>
         <ion-item *ngFor="let o of getSurveyOptions(ff)">
           <ion-label>{{ o.o }}</ion-label>
-          <ion-checkbox value='{{o.o}}' mode="md" name="isWriteIn" (ionChange)="surveySelectCheckBox($event)" ></ion-checkbox>
+          <ion-checkbox value='{{o.o}}' mode="md" name="isWriteIn" (ionChange)="surveySelectCheckBox($event)"></ion-checkbox>
         </ion-item>
         <div *ngIf="ff.isWriteIn()">
           <ion-list>

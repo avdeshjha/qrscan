@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Platform, NavParams, ModalController, IonContent } from '@ionic/angular';
+import { Platform, NavParams, ModalController, IonContent, IonCheckbox } from '@ionic/angular';
 import { ModelService, Fulfillment, SymbolType, FFAction, EmailTask, TaskStatus, UpdateState } from 'src/app/services/model.service';
 import { FooterButton } from 'src/app/components/footer/footer.component';
 import { FulfillmentService } from 'src/app/services/fulfillment.service';
@@ -19,6 +19,8 @@ export class SurveyPage implements OnInit {
     public surveyListOptions: { o: string, selected: boolean }[];
     missingSurveyMode: boolean = false;
     initialSelection: string;
+    comments: string;
+    writeChoice: string;
 
     constructor(
         public platform: Platform,
@@ -50,6 +52,9 @@ export class SurveyPage implements OnInit {
         this.getSurveyOptions(this.ff); // populate survey options
         this.initialSelection = this.ff.getSurveySelection();
         this.surveySelect(this.initialSelection);
+        this.comments = this.ff.getComments();
+
+        this.setCheckboxChecked(this.initialSelection);
     }
 
     async closeModal() {
@@ -89,9 +94,31 @@ export class SurveyPage implements OnInit {
             },
         ];
 
+        console.log("0.surveySelect::", o);
+        // console.log("1.surveySelect::", this.ff.ffData);
         this.ff.ffData.find(d => d.type === SymbolType.Programmatic && d.code === 'O')
             .parts[0] = { code: 'O', value: o };
 
         this.surveyListOptions.forEach(e => e.selected = (e.o === o));
+    }
+
+    isChecked: boolean = false;
+
+    setCheckboxChecked(o: string) {
+        this.ff.ffData.find(d => d.type === SymbolType.Programmatic && d.code === 'O')
+            .parts[0] = { code: 'O', value: o };
+
+        this.surveyListOptions.forEach(e => e.selected = (e.o === o));
+
+        for(let i = 0; i < this.surveyListOptions.length; i++) {
+            if(o.indexOf(this.surveyListOptions[i].o) !== -1) {
+                this.surveyListOptions[i].selected = true
+                this.isChecked = true;
+              } else {
+                this.isChecked = false;
+              }
+            
+            this.writeChoice = o[o.length - 1];
+        }    
     }
 }

@@ -322,7 +322,7 @@ export class FfDetailsPage implements OnInit {
         console.log("Survey Details Question: " + this.surveyDetails.Question);
         console.log("Survey Details Answer: " + this.surveyDetails.Selection);
         console.log("0.Survey Details Comment: " + this.ff.getComments());
-        break;
+      break;
       case EngageType.FIVESTARSURVEY:
         this.fiveStarSurveyDetails.Question = this.ff.getSurveyQuestion();
         if (!this.isPreview) {
@@ -385,6 +385,15 @@ export class FfDetailsPage implements OnInit {
     let databaseIDString = "Get databaseID";
 
     if (this.ff.isSurvey()) {
+      let expired: boolean = this.ff.getCampaignInterval().end < DateTime.local();
+    
+      options = [
+        // [cancelString, this.ff.state === FFState.REGISTERED],
+        // [editString, this.ff.state !== FFState.CANCELED && !expired],
+        [editString, !expired],
+        [shareString, false]
+      ];
+    } else if (this.ff.isFiveStarSurvey()) {
       let expired: boolean = this.ff.getCampaignInterval().end < DateTime.local();
     
       options = [

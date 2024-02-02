@@ -201,7 +201,7 @@ export class Fulfillment implements Persistant {
   }
 
   public getUserFacingState(): FFState {
-    console.log("FF State: " + this.state)
+    // console.log("FF State: " + this.state)
     switch (this.state) {
       case FFState.OPT_IN:
         return FFState.OPT_IN;
@@ -668,7 +668,7 @@ export class Fulfillment implements Persistant {
     let value : FFData;
     try {
       value = this.ffData.find(d => d.type === SymbolType.QRCode && d.code === '3');
-      console.log("Value: " + value);
+      console.log("Value: " + value.parts[0].value);
       return value.parts[0].value;
     } catch (error) {
       console.log("Error: " + error);
@@ -683,8 +683,10 @@ export class Fulfillment implements Persistant {
     let selectionFFData: FFData;
     try {
       selectionFFData = this.ffData.find(d => d.type === SymbolType.Programmatic && d.code === 'O');
+      let selectionFFData1 = this.ffData.find(d => d.type === SymbolType.Programmatic);
       let selectionFFDataParts = selectionFFData.parts.find(p => p.code === 'O')
-      
+      // console.log("Selection: " + selectionFFData.parts[0].value);
+      // console.log("Rating: " + selectionFFData1.parts[0].value);
       return selectionFFData.parts[0].value;
       // return selectionFFDataParts.value;
     } catch (error) {
@@ -699,7 +701,7 @@ export class Fulfillment implements Persistant {
     // return "4.5"
     let selectionFFData: FFData;
     try {
-      selectionFFData = this.ffData.find(d => d.type === SymbolType.Programmatic && d.code === 'O');
+      selectionFFData = this.ffData.find(d => d.type === SymbolType.Programmatic);
       let selectionFFDataParts = selectionFFData.parts.find(p => p.code === 'O')
       console.log("05.ffData Code: " + selectionFFDataParts.code);
       console.log("05.ffData Value: " + selectionFFDataParts.value);
@@ -723,7 +725,6 @@ export class Fulfillment implements Persistant {
 
   public setComments(com: string) {
     this.comments = com;
-    // this.storage.set('surveyComments', data);
   }
 
   //requires ffData
@@ -732,14 +733,7 @@ export class Fulfillment implements Persistant {
     try {
       selectionFFData = this.ffData.find(d => d.type === SymbolType.Programmatic && d.code === 'O');
       let selectionFFDataParts = selectionFFData.parts.find(p => p.code === 'C')
-      // this.ffData.forEach(p => {
-      //   console.log("1.ffData Code: " + p.code);
-      //   console.log("1.ffData Type: " + p.type);
-      //   p.parts.forEach(b => {
-      //     console.log("1.ffData Part Code: " + b.code);
-      //     console.log("1.ffData Part Value: " + b.value);
-      //   });
-      // });
+     
       return selectionFFDataParts.value;
     } catch (error) {
       return null;

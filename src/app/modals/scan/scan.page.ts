@@ -443,6 +443,17 @@ export class ScanPage implements OnInit {
     let qrData: string = this.navParams.get('qrData');
     let deviceString: string = (<any>window).cordova ? this.device.uuid : 'browser';
 
+    let index = qrData.indexOf('♥');
+    let substring = qrData.substring(0, index)
+    console.log('00Substring: ' + substring);
+    let lastString = qrData.substring(index, qrData.length);
+    console.log('00lastString: ' + lastString);
+    if( qrData.substring(0, 2) === 'AS') {
+      qrData = substring + '♥O' + lastString
+      // let finalString = qrData.substring(0, index) + '♥O' + qrData.substring(index, qrData.length);
+      console.log('00qrData Final String: ' + qrData);
+    }
+
     this.ff = new Fulfillment(
       null,
       qrData,

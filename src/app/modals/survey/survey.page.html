@@ -1,5 +1,6 @@
 <header (back)='closeModal()'></header>
 
+<ng-container *ngIf="ff.isSurvey(); else fiveStarSurvey" >
 <div class="center">
     <div *ngIf='missingSurveyMode' class="missingDataError">Please select an option.</div>
     <h3>Survey</h3>
@@ -10,14 +11,140 @@
 </div>
 
 <ion-content overflow-scroll=”true”>
-    <ion-radio-group value=this.initialSelection [(ngModel)]=initialSelection>
+    <div *ngIf="ff.isMultiChoice() else radioselection" >
         <ion-list>
-            <ion-item *ngFor="let o of getSurveyOptions(ff)" [ngClass]="{'surveySelected' : o.selected}">
-                <ion-label>{{ o.o }}</ion-label>
-                <ion-radio value='{{o.o}}' (ionSelect)='surveySelect(o.o)' mode="md"></ion-radio>
-            </ion-item>
+          <ion-item *ngFor="let o of getSurveyOptions(ff)" [ngClass]="{'surveySelected' : o.selected}">
+            <ion-label>{{ o.o }}</ion-label>
+            <ion-checkbox value='{{o.o}}' mode="md" name="isWriteIn" (ionChange)="surveySelectCheckBox($event)" [(ngModel)]="o.selected" ></ion-checkbox>
+          </ion-item>
+          <div *ngIf="ff.isWriteIn()">
+            <ion-list>
+                <ion-label position="floating" class="ion-margin">Write your choice:</ion-label>
+                <ion-item class="input-box">
+                  <ion-input maxlength="24" placeholder="Write Your Feedback" type="text" text-right id="writeInInput" [(ngModel)]="writeChoice"></ion-input>
+              </ion-item>
+            </ion-list>
+          </div>
         </ion-list>
-    </ion-radio-group>
+      </div>
+      <ng-template #radioselection> 
+        <ion-radio-group value=this.initialSelection [(ngModel)]=initialSelection>
+          <ion-list>
+            <ion-item *ngFor="let o of getSurveyOptions(ff)" [ngClass]="{'surveySelected' : o.selected}">
+              <ion-label>{{ o.o }}</ion-label>
+                <ion-radio value='{{o.o}}' mode="md" name="isWriteIn" [ngClass]="{'surveySelected' : o.selected}"></ion-radio>
+            </ion-item>
+            
+            <div *ngIf="ff.isWriteIn()">
+              <ion-list>
+                  <ion-label position="floating" class="ion-margin">Write your choice:</ion-label>
+                  <ion-item class="input-box">
+                    <ion-input maxlength="24" placeholder="Write Your Feedback" type="text" text-right id="writeInInput" [(ngModel)]="initialSelection"></ion-input>
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-list>
+        </ion-radio-group>
+      </ng-template>
 </ion-content>
+</ng-container>
+
+<ng-template #fiveStarSurvey>
+    <div class="center">
+        <div *ngIf='missingSurveyMode' class="missingDataError">Please select an option.</div>
+        <h3>Five Star Survey</h3>
+        {{ ff.getDescription() }} <br />
+        {{ ff.getOrg() }} <br />
+        <br />
+        {{ surveyQuestion }}
+        <br/>
+        {{this.comments}}
+    </div>
+
+    <ion-content overflow-scroll=”true”>
+        <ion-radio-group (ionChange)='fiveStarRatingsurveySelect($event)' value=this.initialSelection [(ngModel)]=initialSelection>
+            <ion-list>
+              <ion-item lines=none >
+                <ion-label>Terriable</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="1" mode="md" [ngClass]="{'surveySelected' : 'Terriable'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+              <ion-item lines=none>
+                <ion-label>&nbsp;&nbsp;</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star-half" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="1½" mode="md" [ngClass]="{'surveySelected' : 'Terriable'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+    
+              <ion-item>
+                <ion-label>Barely Acceptable</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="2" mode="md" [ngClass]="{'surveySelected' :'Barely Acceptable'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+              <ion-item>
+                <ion-label>&nbsp;&nbsp;</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star-half" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="2½ " mode="md" [ngClass]="{'surveySelected' :'Barely Acceptable'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+    
+              <ion-item>
+                <ion-label>Average</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="3" mode="md" [ngClass]="{'surveySelected' :'Avegare'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+              <ion-item>
+                <ion-label>&nbsp;&nbsp;</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star-half" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="3½ " mode="md" [ngClass]="{'surveySelected' :'Avegare'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+    
+              <ion-item>
+                <ion-label>Very Good</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="4" mode="md" [ngClass]="{'surveySelected' :'Very Good'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+              <ion-item>
+                <ion-label>&nbsp;&nbsp;</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star-half" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="4½ " mode="md" [ngClass]="{'surveySelected' :'Very Good'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+    
+              <ion-item>
+                <ion-label>Perfact</ion-label>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-icon name="star" color="primary" class="ion-star-margin"></ion-icon>
+                <ion-radio value="5" mode="md" [ngClass]="{'surveySelected' :'Perfact'}"></ion-radio>&nbsp;&nbsp;
+              </ion-item>
+            </ion-list>
+          </ion-radio-group>
+    </ion-content>
+</ng-template>
+
+<div *ngIf="ff.isComment()">
+    <ion-list>
+      <ion-label position="floating" class="ion-margin">Comments:</ion-label>
+      <ion-item class="input-box"  >
+      <ion-input type="text" maxlength="128" placeholder="Your Comment" text-right id="commentInput" [(ngModel)]="comments"></ion-input>
+    </ion-item>
+  </ion-list>
+  </div>
 
 <footer [buttons]='footerButtons' [page]='null'></footer>

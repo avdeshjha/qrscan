@@ -10,3 +10,21 @@
 	color: black;
 	text-align: center;
 }
+
+.input-box {
+	border-color: blue;
+	--border-color: #ffffff;
+	border-width: thin;
+	border-style: solid;
+	position: static;
+	--placeholder-color: #808080;
+	width: 96%;
+	margin-left: 2%;
+	margin-top: 8px;
+	--highlight-background: #ffffff;
+  }
+
+.ion-margin {
+	margin-left: 2%;
+	margin-top: 12px;
+}
