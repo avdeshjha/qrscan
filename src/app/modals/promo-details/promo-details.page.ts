@@ -67,6 +67,7 @@ export class PromoDetailsPage implements OnInit {
             text: "Redeem",
             icon: "pricetags",
             callback: (async () => {
+                console.log("1.RedeemMethodAllowed: " + this.promo.redeemMethodAllowed);
                 if (!this.promo.redeemMethodAllowed) {
                     const alert = await this.getRedeemMethodAllowedAlert();
                     await alert.present();

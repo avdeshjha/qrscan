@@ -201,7 +201,6 @@ export class Fulfillment implements Persistant {
   }
 
   public getUserFacingState(): FFState {
-    // console.log("FF State: " + this.state)
     switch (this.state) {
       case FFState.OPT_IN:
         return FFState.OPT_IN;
@@ -604,12 +603,17 @@ export class Fulfillment implements Persistant {
 
       // this.promoInterval = this.getIntervalFromFFData(promoStartData, promoEndData);
       // return this.promoInterval;
+      // console.log("3.0.0Promo Data: " + this.ffData);
       let promoData = this.ffData.find(d => d.type === SymbolType.QRCode && d.code === '9F');
+      console.log("3.0.0.0Promo Data: " + promoData);
       if(promoData === undefined) {
         promoData = this.ffData.find(d => d.type === SymbolType.QRCode && d.code === '9r');
       }
       console.log("3.Promo Data: " + promoData);
       this.promoInterval = this.getCrunchedIntervalFromFFData(promoData);
+
+      console.log("3.0Promo Data Start: " + this.promoInterval.start);
+      console.log("3.1Promo Data End: " + this.promoInterval.end);
       return this.promoInterval;
     }
   }
@@ -931,6 +935,9 @@ export class Fulfillment implements Persistant {
     let relData, couponData;
     relData = this.ffData.find(d => d.type === SymbolType.QRCode && d.code === '0r');
     couponData = this.ffData.find(d => d.type === SymbolType.QRCode && d.code === '9r');
+    if(couponData == null) {
+      couponData = this.ffData.find(d => d.type === SymbolType.QRCode && d.code === '9F');
+    }
     console.log("0.0.Coupon Data: " + couponData);
     console.log("0.0.Rel Data: " + relData);
     if (relData != null || couponData != null) {
@@ -1898,11 +1905,14 @@ export class Promo implements Persistant {
 
   getCouponDateStart(): string {
     let incentCouponDate : string;
+    console.log("000Type: " + this.type);
     if(this.type === PromoType.COUPON){
       let couponDate : Interval = this.fulfillment.getCouponDate();
+      console.log("000couponDate: " + couponDate);
       if(couponDate === null) return '';
       if(couponDate.start === null) { return ''; }
       else{ incentCouponDate = couponDate.start.toISO(); }
+      console.log("000incentCouponDate: " + incentCouponDate);
       return this.formatDateTime(DateTime.fromISO(incentCouponDate));
     } else if(this.fulfillment != null && this.fulfillment != undefined) {
       let couponDate : Interval = this.fulfillment?.getCouponDate();
@@ -1981,9 +1991,7 @@ export class Promo implements Persistant {
 
   private formatDateTime(dateTime: DateTime) {
     if (!dateTime) return null;
-    const datetime= dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-    // console.log("0.DateTime::::" + datetime);
-    return datetime;
+    return dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
   }
 
   public get punch(): Punch {
@@ -2432,9 +2440,7 @@ export class PunchData implements Persistant {
 
   private formatDateTime(dateTime: DateTime) {
     if (!dateTime) return null;
-    const datetime = dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-    // console.log("1.DateTime::::" + datetime);
-    return datetime;
+    return dateTime.toFormat('EEE MMM dd yyyy hh:mm a').toLocaleString({ weekday: 'short', month: 'short', year: 'numeric', day: '2-digit', hour: '2-digit', minute: '2-digit' });
   }
 
   public get punch(): Punch {

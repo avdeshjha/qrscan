@@ -322,7 +322,7 @@ export class FfDetailsPage implements OnInit {
         console.log("Survey Details Question: " + this.surveyDetails.Question);
         console.log("Survey Details Answer: " + this.surveyDetails.Selection);
         console.log("0.Survey Details Comment: " + this.ff.getComments());
-      break;
+        break;
       case EngageType.FIVESTARSURVEY:
         this.fiveStarSurveyDetails.Question = this.ff.getSurveyQuestion();
         if (!this.isPreview) {

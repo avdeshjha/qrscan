@@ -422,10 +422,10 @@ export class DatabaseService {
       fulfillment.getPromoDescription(),
       fulfillment.getOrg(),
       promoType,
-      // fulfillment.getPromoInterval().start.toISO(),
-      // fulfillment.getPromoInterval().end.toISO(),
-      startDateTime,
-      endDateTime,
+      fulfillment.getPromoInterval().start.toISO(),
+      fulfillment.getPromoInterval().end.toISO(),
+      // startDateTime,
+      // endDateTime,
       itemDescriptionString,
       priceString,
       limitString,
@@ -435,6 +435,7 @@ export class DatabaseService {
     )
     promo.setParentCampaign(fulfillment);
     promo.redeemMethod = fulfillment.getRedeemMethod();
+    console.log("0.Promo Redeem Method: " + promo.redeemMethod);
     if (promo.redeemMethod == RedeemMethod.QUICK) {
       promo.redeemMethodAllowed = true;
     } else if (promo.redeemMethod == RedeemMethod.SELF) {
